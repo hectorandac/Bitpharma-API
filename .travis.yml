@@ -1,0 +1,21 @@
+language: ruby
+
+services:
+  - docker
+
+
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t notbaddays/bitpharma-api .
+  - docker run -d -p 127.0.0.1:80:3000 notbaddays/bitpharma-api /bin/sh -c "cd /bitpharma-api; bundle exec rails server;"
+  - docker ps -a
+  - docker run notbaddays/bitpharma-api /bin/sh -c "cd /bitpharma-api; bundle exec rake test"
+
+script:
+  - bundle exec rake test
+
+deploy:
+  provider: script
+  script: deploy.sh
+  on:
+    branch: master

@@ -17,15 +17,19 @@ services:
     environment:
       POSTGRES_PASSWORD: 'qusUt1i9obru4ISTUG2f'
     ports:
-      - "5432:5432"
+      - "5432"
     volumes:
       - psql:/var/log/postgresql
     networks:
       - api
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   rails:
     restart: always
-    user: root
     container_name: bitpharma_api
     build: .
     command: bin/start_rails_docker
@@ -39,6 +43,9 @@ services:
       - "3000:3000"
     networks:
       - api
+    depends_on:
+      psql:
+        condition: service_healthy
 
 networks:
   api:

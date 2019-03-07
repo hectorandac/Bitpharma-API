@@ -260,6 +260,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   rails (~> 5.2.2)
+  rspec (>= 3.8)
   rspec-rails
   spring
   spring-watcher-listen (~> 2.0.0)

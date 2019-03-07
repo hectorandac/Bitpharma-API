@@ -48,7 +48,9 @@ group :test do
   gem 'capybara'
   gem 'fabrication'
   gem 'faker'
+  gem 'rspec', '>= 3.8'
   gem 'guard-rspec'
+  gem 'rspec-rails'
   gem 'json-schema'
   gem "json_matchers"
   gem 'launchy'

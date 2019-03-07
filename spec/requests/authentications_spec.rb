@@ -15,20 +15,23 @@ def decode_jwt_token(response)
 end
 
 RSpec.describe 'POST /login', type: :request do
-  let(:user) { create(:user) }
   let(:url) { '/login' }
-  let(:params) do
-    {
-      user: {
-        email: user.email,
-        password: user.password
-      }
-    }
-  end
 
   context 'When the params are correct' do
     before do
-      post url, params: params
+      user = create :user
+      params = {
+        user: {
+          email: user.email,
+          password: user.password
+        }
+      }
+
+      headers = {
+        'Content-Type' => 'application/json'
+      }
+
+      post('/login', params: params.to_json, headers: headers)
     end
 
     it 'returns 200' do

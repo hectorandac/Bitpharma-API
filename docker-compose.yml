@@ -1,0 +1,56 @@
+version: '2.1'
+
+# ACTUAL CONFIGURATION
+services:
+  # DATABASE CONFIGURATION
+  psql:
+    command: postgres -c logging_collector=on
+      -c log_min_duration_statement=0
+      -c log_directory='/var/log/postgresql'
+      -c log_min_messages='WARNING'
+      -c log_rotation_age='1d'
+      -c log_rotation_size='1GB'
+    container_name: db_postgresql_bitpharma
+    hostname: psql
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'qusUt1i9obru4ISTUG2f'
+    ports:
+      - "5432"
+    volumes:
+      - psql:/var/log/postgresql
+    networks:
+      - api
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  rails:
+    restart: always
+    container_name: bitpharma_api
+    build: .
+    command: bin/start_rails_docker
+    volumes:
+      - .:/bitpharma-api
+    environment:
+      - DB_HOST=psql
+      - DB_PASSWORD=qusUt1i9obru4ISTUG2f
+      - DB_USER=postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - api
+    depends_on:
+      psql:
+        condition: service_healthy
+
+networks:
+  api:
+    driver: bridge
+
+volumes:
+  psql:
+    driver: local

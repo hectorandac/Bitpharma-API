@@ -15,7 +15,7 @@ def decode_jwt_token(response)
 end
 
 RSpec.describe 'POST /login', type: :request do
-  let(:url) { '/login' }
+  let(:url) { '/api/login' }
 
   context 'When the params are correct' do
     before do
@@ -31,7 +31,7 @@ RSpec.describe 'POST /login', type: :request do
         'Content-Type' => 'application/json'
       }
 
-      post('/login', params: params.to_json, headers: headers)
+      post('/api/login', params: params.to_json, headers: headers)
     end
 
     it 'returns 200' do
@@ -58,7 +58,7 @@ RSpec.describe 'POST /login', type: :request do
 end
 
 RSpec.describe 'DELETE /logout', type: :request do
-  let(:url) { '/logout' }
+  let(:url) { '/api/logout' }
 
   it 'returns 204, no content' do
     delete url

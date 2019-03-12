@@ -3,6 +3,15 @@
 class SessionsController < Devise::SessionsController
   respond_to :json
 
+  api :POST, '/login', 'Sign user in'
+  param :user, Hash, required: true, desc: 'User info' do
+    param :email, String, desc: 'User email'
+    param :password, String, desc: 'User password'
+  end
+  def create
+    super
+  end
+
   private
 
   def respond_with(resource, _opts = {})

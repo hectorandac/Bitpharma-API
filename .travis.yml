@@ -6,6 +6,7 @@ services:
   - docker
 
 before_install:
+  - mv config/database.yml config/database.temp.yml
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database travis_ci_test;' -U postgres
   - gem install bundler

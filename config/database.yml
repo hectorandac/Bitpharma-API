@@ -84,5 +84,3 @@ test:
 production:
   <<: *default
   database: bitpharma-api_production
-  username: bitpharma-api
-  password: <%= ENV['BITPHARMA-API_DATABASE_PASSWORD'] %>

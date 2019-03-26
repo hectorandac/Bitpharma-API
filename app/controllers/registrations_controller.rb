@@ -7,6 +7,8 @@ class RegistrationsController < Devise::RegistrationsController
   param :user, Hash, required: true, desc: 'User info' do
     param :email, String, desc: 'User email'
     param :password, String, desc: 'User password'
+    param :first_name, String, desc: 'User first name'
+    param :last_name, String, desc: 'User last name'
   end
   def create
     build_resource(sign_up_params)
@@ -14,4 +16,11 @@ class RegistrationsController < Devise::RegistrationsController
     resource.save
     render_resource(resource)
   end
+
+  private
+
+  def sign_up_params
+    params.require('user').permit(:email, :first_name, :last_name, :password)
+  end
+
 end

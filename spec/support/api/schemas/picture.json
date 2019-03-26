@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "id": "file:/picture.json#",
+  "required" : [
+    "picture_data",
+    "url"
+  ],
+  "properties" : {
+    "picture_data" : {
+      "type" : "object",
+      "required": [
+        "id",
+        "name",
+        "record_type",
+        "blob_id",
+        "created_at"
+      ],
+      "properties":{
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "record_type": { "type": "string" },
+        "record_id": { "type": "integer" },
+        "blob_id": { "type":  "integer" },
+        "created_at": { "type": "string" }
+      }
+    },
+    "url": { "type": "string" }
+  }
+}

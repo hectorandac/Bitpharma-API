@@ -19,7 +19,7 @@ module Mailers
 
       data = load_confirmation_template(token, record)
       j_data = JSON.parse(data.to_json)
-      p @sg.client.mail._('send').post(request_body: j_data)
+      @sg.client.mail._('send').post(request_body: j_data)
     end
 
     private

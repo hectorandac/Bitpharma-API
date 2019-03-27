@@ -25,4 +25,11 @@ class ApplicationController < ActionController::API
       ]
     }, status: :bad_request
   end
+
+  def verify_admin
+    unless current_user.has_role? :admin
+      render json: { message: 'User does not have admin privileges.' }, status: :unauthorized
+      nil
+    end
+  end
 end

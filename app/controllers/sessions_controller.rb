@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+
 class SessionsController < Devise::SessionsController
+  include ActionController::Cookies
   respond_to :json
 
   api :POST, '/login', 'Sign user in'
@@ -10,6 +12,7 @@ class SessionsController < Devise::SessionsController
   end
   def create
     super
+    cookies['tru'] = resource.email
   end
 
   private

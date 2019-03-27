@@ -1,0 +1,7 @@
+{
+  "type": "array",
+  "id": "file:/pictures.json#",
+  "items": {
+    "$ref": "file:/picture.json#"
+  }
+}

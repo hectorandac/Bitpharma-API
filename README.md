@@ -1,8 +1,6 @@
 # bitpharma-api
 [![Build Status](https://travis-ci.com/notbaddays/bitpharma-api.svg?branch=master)](https://travis-ci.com/notbaddays/bitpharma-api) 
 
-# Welcome to Rails
-
 ## What's Rails?
 
 Rails es un marco de aplicación web que incluye todo lo necesario para

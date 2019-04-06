@@ -142,6 +142,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashie (3.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jmespath (1.4.0)
@@ -256,6 +257,10 @@ GEM
       rake (>= 0.8.1)
     ruby_dep (1.5.0)
     ruby_http_client (3.3.0)
+    searchkick (3.1.2)
+      activemodel (>= 4.2)
+      elasticsearch (>= 5)
+      hashie
     semantic_logger (4.5.0)
       concurrent-ruby (~> 1.0)
     sendgrid-ruby (5.3.0)
@@ -330,6 +335,7 @@ DEPENDENCIES
   rspec (>= 3.8)
   rspec-rails
   ruby-debug-ide
+  searchkick
   sendgrid-ruby
   spring
   spring-watcher-listen (~> 2.0.0)

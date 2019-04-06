@@ -8,6 +8,10 @@ class Order < ApplicationRecord
     update!(state: 'new')
   end
 
+  def update(new_state)
+    update!(state: new_state)
+  end
+
   def sanitized_info
     {
       id: id,

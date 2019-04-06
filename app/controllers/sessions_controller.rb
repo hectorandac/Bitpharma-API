@@ -12,7 +12,8 @@ class SessionsController < Devise::SessionsController
   end
   def create
     super
-    cookies['tru'] = resource.email
+    p resource.email
+    cookies[:user_email] = resource.email
   end
 
   private

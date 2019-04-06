@@ -31,7 +31,7 @@ module Mailers
         {
           to: [email: record.email],
           dynamic_template_data: {
-            host: '0.0.0.0:3000',
+            host: Rails.env.production? ? "0.0.0.0:#{ENV['PORT']}" : 'api.bitpharma.xyz',
             token: token
           }
         }
@@ -44,6 +44,7 @@ module Mailers
         {
           to: [email: email],
           dynamic_template_data: {
+            host: Rails.env.production? ? "0.0.0.0:#{ENV['PORT']}" : 'api.bitpharma.xyz',
             callback: callback,
             token: token
           }

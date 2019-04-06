@@ -3,7 +3,8 @@ module ApplicationCable
     identified_by :current_user
 
     def connect
-      self.current_user = auth_user
+      # TODO: Authentication
+      # self.current_user = auth_user
     end
 
     private

@@ -3,8 +3,15 @@
 module Api
   module Order
     class OrderController < ApplicationController
-      before_action :authenticate_user!
-      before_action :verify_admin
+      before_action :authenticate_user!, except: :create_demo
+      before_action :verify_admin, except: :create_demo
+
+      def create_demo
+        products = Product.all
+        total = products.map(&:price).sum
+        ::Order.create!(total: total, itbis: (total * 0.18), user_id: 3, products: products)
+        render json: 'Sent', status: :ok
+      end
 
       def show
         orders = ::Order.all
@@ -23,13 +30,15 @@ module Api
       def update_state
         order = ::Order.find(params[:order_id])
         order.update!(state: params[:state])
-        show_single
+        order_info = show_single
+        ::ActionCable.server.broadcast('orders_channel', order_info.to_json)
+        order_info
       end
 
       private
 
       def modify_params
-        params.require('user').permit(:first_name, :last_name)
+        params.require('user').permit(:complete_name)
       end
     end
   end

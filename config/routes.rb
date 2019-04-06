@@ -13,6 +13,9 @@ Rails.application.routes.draw do
                sessions: 'sessions',
                registrations: 'registrations'
              }, defaults: { format: :json }
+
+  mount ActionCable.server => '/cable'
+
   namespace :api do
     namespace :drug_store do
       post '/', to: 'drug_store#create'
@@ -31,6 +34,14 @@ Rails.application.routes.draw do
       get '/', to: 'order#show_single'
       get '/all', to: 'order#show'
       patch '/', to: 'order#update_state'
+      post '/demo', to: 'order#create_demo'
+    end
+
+    namespace :product do
+      get '/products', to: 'products#index'
+      get '/products/:id', to: 'products#show'
+      post '/products', to: 'products#create'
+      patch '/products/:id', to: 'products#update'
     end
   end
 end

@@ -3,8 +3,15 @@
 module Api
   module Order
     class OrderController < ApplicationController
-      before_action :authenticate_user!
-      before_action :verify_admin
+      before_action :authenticate_user!, except: :create_demo
+      before_action :verify_admin, except: :create_demo
+
+      def create_demo
+        products = Product.all
+        total = products.map(&:price).sum
+        ::Order.create!(total: total, itbis: (total * 0.18), user_id: 3, products: products)
+        render json: 'Sent', status: :ok
+      end
 
       def show
         orders = ::Order.all

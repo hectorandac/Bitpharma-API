@@ -12,6 +12,10 @@ class Order < ApplicationRecord
     notify_create
   end
 
+  def update(new_state)
+    update!(state: new_state)
+  end
+
   def sanitized_info
     {
       id: id,

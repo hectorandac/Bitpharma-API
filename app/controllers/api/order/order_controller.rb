@@ -30,7 +30,9 @@ module Api
       def update_state
         order = ::Order.find(params[:order_id])
         order.update!(state: params[:state])
-        show_single
+        order_info = show_single
+        ::ActionCable.server.broadcast('orders_channel', order_info.to_json)
+        order_info
       end
 
       private

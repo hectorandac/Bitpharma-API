@@ -10,8 +10,8 @@ services:
     volumes:
       - ./config/docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
-      - "9200"
-      - "9300"
+      - "9200:9200"
+      - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     healthcheck:
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./config/docker/kibana/config/:/usr/share/kibana/config:ro
     ports:
-      - "5601"
+      - "5601:5601"
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -50,7 +50,7 @@ services:
     environment:
       POSTGRES_PASSWORD: 'qusUt1i9obru4ISTUG2f'
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
       - psql:/var/log/postgresql
     networks:
@@ -72,13 +72,13 @@ services:
       - DB_HOST=psql
       - DB_PASSWORD=qusUt1i9obru4ISTUG2f
       - DB_USER=postgres
-      - ELASTICSEACRH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - DIGITAL_OCEAN_SPACES_ID=G634R6XSCQH67EDG3XPV
       - DIGITAL_OCEAN_SPACES_KEY=SimmIkaQ0/47wu/ZXCDa7/KIou36pyrIE8wFEPZW47Q
       - DEVISE_JWT_SECRET_KEY=uyGhjtu867Hk
       - PORT=3002
     ports:
-      - "3002"
+      - "3002:3002"
     networks:
       - api
       - elk

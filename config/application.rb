@@ -57,7 +57,7 @@ module BitpharmaApi
     }
     config.semantic_logger.add_appender(
       appender: :elasticsearch,
-      url: ENV['ELASTICSEACRH_URL'],
+      url: ENV['ELASTICSEARCH_URL'],
       index: 'bitpharma-api'
     )
 

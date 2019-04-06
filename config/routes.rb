@@ -38,10 +38,12 @@ Rails.application.routes.draw do
     end
 
     namespace :product do
-      get '/products', to: 'products#index'
-      get '/products/:id', to: 'products#show'
-      post '/products', to: 'products#create'
-      patch '/products/:id', to: 'products#update'
+      get '/', to: 'products#index'
+      get '/search', to: 'products#query'
+      get '/:id', to: 'products#show'
+      post '/', to: 'products#create'
+      post '/image', to: 'products#append_images'
+      patch '/:id', to: 'products#update'
     end
   end
 end

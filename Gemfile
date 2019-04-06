@@ -15,6 +15,7 @@ gem 'figaro'
 gem 'rolify'
 gem 'sendgrid-ruby'
 gem 'rack-cors'
+gem 'searchkick'
 
 gem 'awesome_print'
 gem 'elasticsearch'

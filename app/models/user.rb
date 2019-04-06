@@ -29,8 +29,7 @@ class User < ApplicationRecord
     {
       id: id,
       email: email,
-      first_name: first_name,
-      last_name: last_name,
+      complete_name: complete_name,
       profile_picture_url: rails_blob_path(profile_image, disposition: "attachment", only_path: true),
       roles: roles.map(&:name)
     }

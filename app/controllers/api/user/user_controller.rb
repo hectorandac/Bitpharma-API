@@ -28,7 +28,7 @@ module Api
       private
 
       def modify_params
-        params.require('user').permit(:first_name, :last_name)
+        params.require('user').permit(:complete_name)
       end
 
     end

@@ -18,6 +18,14 @@ class OrderNotificationChannel < ApplicationCable::Channel
     )
   end
 
+  def show_my_orders
+    user = User.find(params[:user_id])
+    orders = user.orders
+    ActionCable.server.broadcast(
+      "order_notification_user_#{params[:user_id]}",
+      orders
+    )
+  end
 
   def unsubscribe
     # Any cleanup needed when channel is unsubscribed

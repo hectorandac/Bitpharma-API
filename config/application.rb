@@ -61,8 +61,5 @@ module BitpharmaApi
       index: 'bitpharma-api'
     )
 
-    # Important for elastic search
-    Product.reindex
-
   end
 end

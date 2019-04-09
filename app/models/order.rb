@@ -23,7 +23,7 @@ class Order < ApplicationRecord
       itbis: itbis,
       state: state,
       user: user.sanitized_info,
-      products: products
+      products: products.map(&:sanitized_info)
     }
   end
 

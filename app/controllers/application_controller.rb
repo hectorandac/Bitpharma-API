@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+require 'stripe'
+
 # General Application controller
 class ApplicationController < ActionController::API
   include ActionController::MimeResponds
+  Stripe.api_key = 'sk_test_2iqpMIbPvxjeVtoYKdN9hgj900TfPvurTi'
   respond_to :json
 
   def render_resource(resource)

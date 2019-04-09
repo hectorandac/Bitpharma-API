@@ -16,6 +16,7 @@ class User < ApplicationRecord
   after_create :assign_default_role
   has_many :drug_stores
   has_one_attached :profile_image
+  has_and_belongs_to_many :products
 
   def assign_default_role
     add_role(:user) if roles.blank?

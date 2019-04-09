@@ -28,6 +28,13 @@ Rails.application.routes.draw do
       patch '/', to: 'user#update'
       post '/profile_picture', to: 'user#add_profile_picture'
       patch '/role', to: 'user#append_role'
+
+      post '/payment_method', to: 'payment_method#add_payment_method'
+      get '/payment_method', to: 'payment_method#retrieve_payment_methods'
+      delete '/payment_method', to: 'payment_method#remove_payment_method'
+      patch '/payment_method', to: 'payment_method#modify_default'
+
+      post '/cart/pay', to: 'payments#perform_payment'
     end
 
     namespace :order do

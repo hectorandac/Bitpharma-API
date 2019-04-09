@@ -16,6 +16,7 @@ gem 'rolify'
 gem 'sendgrid-ruby'
 gem 'rack-cors'
 gem 'searchkick'
+gem 'stripe'
 
 gem 'awesome_print'
 gem 'elasticsearch'

@@ -1,5 +1,4 @@
 class Api::User::CartController < ApplicationController
-
   def append_product
     current_user.products << Product.find(params[:product_id])
     show_cart
@@ -17,5 +16,4 @@ class Api::User::CartController < ApplicationController
   def show_cart
     render json: current_user.products.map(&:sanitized_info), status: :ok
   end
-
 end

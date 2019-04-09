@@ -18,9 +18,7 @@ class Api::User::PaymentsController < Api::User::PaymentMethodController
 
     if charge.status == 'succeeded'
       order = convert_to_order(products)
-      current_user.update!(
-        products: []
-      )
+      current_user.products.clear
       render json: order.sanitized_info, status: :ok
     else
       render json: {

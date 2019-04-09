@@ -31,7 +31,7 @@ class User < ApplicationRecord
       id: id,
       email: email,
       complete_name: complete_name,
-      profile_picture_url: rails_blob_path(profile_image, disposition: "attachment", only_path: true),
+      profile_picture_url: profile_image.attached? ? rails_blob_path(profile_image, disposition: "attachment", only_path: true) : nil,
       roles: roles.map(&:name)
     }
   end

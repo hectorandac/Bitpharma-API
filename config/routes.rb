@@ -35,6 +35,9 @@ Rails.application.routes.draw do
       patch '/payment_method', to: 'payment_method#modify_default'
 
       post '/cart/pay', to: 'payments#perform_payment'
+      post '/cart/product', to: 'cart#append_product'
+      delete '/cart/product', to: 'cart#remove_product'
+      get '/cart/product', to: 'cart#show_cart'
     end
 
     namespace :order do

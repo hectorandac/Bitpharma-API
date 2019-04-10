@@ -6,6 +6,7 @@ class Order < ApplicationRecord
 
   after_create :add_initial_status
   after_update :notify_create
+  after_update :notify_to_user
 
   def add_initial_status
     update!(state: 'new')
@@ -25,6 +26,10 @@ class Order < ApplicationRecord
       user: user.sanitized_info,
       products: products.map(&:sanitized_info)
     }
+  end
+
+  def notify_to_users
+    ActionCable.server.broadcast("my_orders_#{user.id}", sanitized_info)
   end
 
   def notify_create

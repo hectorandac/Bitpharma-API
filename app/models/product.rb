@@ -17,6 +17,7 @@ class Product < ApplicationRecord
 
   def sanitized_info
     {
+      qty: 1,
       id: id,
       name: name,
       description: description,

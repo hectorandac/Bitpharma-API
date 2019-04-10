@@ -5,7 +5,7 @@ class Api::User::OrderController < ApplicationController
 
   api :GET, '/user/orders', 'Get user orders'
   def show
-    render json: current_user.orders.sanitize_info, status: :ok
+    render json: current_user.orders.map(&:sanitized_info), status: :ok
   end
 
 end

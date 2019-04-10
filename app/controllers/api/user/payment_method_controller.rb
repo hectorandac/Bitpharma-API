@@ -27,7 +27,7 @@ module Api
       rescue StandardError => _e
         render json:
                    { message: 'Verify the validity of your payment method' },
-               status: :ok
+               status: :bad_request
       end
 
       api :GET, '/user/payment_method', 'Get a list of a user payment methods'

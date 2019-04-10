@@ -48,13 +48,11 @@ class Api::User::CartController < ApplicationController
     array.each do |element|
       position = get_index(element[:id], compound_elements)
       if position >= 0
-        puts position
         compound_elements[position][:qty] += 1
       else
         compound_elements << element
       end
     end
-    puts compound_elements
     compound_elements
   end
 end

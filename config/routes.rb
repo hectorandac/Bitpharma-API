@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get '/cart/product', to: 'cart#show_cart'
 
       get '/orders', to: 'order#show'
+      get '/orders/single', to: 'order#show_single'
     end
 
     namespace :order do

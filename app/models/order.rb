@@ -24,6 +24,8 @@ class Order < ApplicationRecord
       itbis: itbis,
       state: state,
       user: user.sanitized_info,
+      created_at: created_at,
+      updated_at: updated_at,
       products: compound(products.map(&:sanitized_info))
     }
   end
@@ -75,13 +77,11 @@ class Order < ApplicationRecord
     array.each do |element|
       position = get_index(element[:id], compound_elements)
       if position >= 0
-        puts position
         compound_elements[position][:qty] += 1
       else
         compound_elements << element
       end
     end
-    puts compound_elements
     compound_elements
   end
 end

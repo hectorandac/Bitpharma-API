@@ -28,7 +28,7 @@ class Order < ApplicationRecord
     }
   end
 
-  def notify_to_users
+  def notify_to_user
     ActionCable.server.broadcast("my_orders_#{user.id}", sanitized_info)
   end
 

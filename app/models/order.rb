@@ -24,7 +24,7 @@ class Order < ApplicationRecord
       itbis: itbis,
       state: state,
       user: user.sanitized_info,
-      products: products.map(&:sanitized_info)
+      products: compound(products.map(&:sanitized_info))
     }
   end
 
@@ -56,5 +56,32 @@ class Order < ApplicationRecord
       {orders_new: orders_new.map(&:sanitized_info),
        orders_progress: orders_progress.map(&:sanitized_info), orders_delivery: orders_delivery.map(&:sanitized_info)}
     )
+  end
+
+
+
+  private
+
+  def get_index(object_id, array)
+    counter = 0
+    array.each do |element|
+      element[:id] == object_id ? (return counter) : (counter += 1)
+    end
+    -1
+  end
+
+  def compound(array)
+    compound_elements = []
+    array.each do |element|
+      position = get_index(element[:id], compound_elements)
+      if position >= 0
+        puts position
+        compound_elements[position][:qty] += 1
+      else
+        compound_elements << element
+      end
+    end
+    puts compound_elements
+    compound_elements
   end
 end

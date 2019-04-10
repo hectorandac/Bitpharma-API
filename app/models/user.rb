@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :drug_stores
   has_one_attached :profile_image
   has_and_belongs_to_many :products
+  has_many :orders
 
   def assign_default_role
     add_role(:user) if roles.blank?
@@ -34,7 +35,8 @@ class User < ApplicationRecord
       phone_number: phone_number,
       address: address,
       profile_picture_url: profile_image.attached? ? rails_blob_path(profile_image, disposition: "attachment", only_path: true) : nil,
-      roles: roles.map(&:name)
+      roles: roles.map(&:name),
+      stripe_id: stripe_id
     }
   end
 end

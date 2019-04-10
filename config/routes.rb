@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       post '/cart/product', to: 'cart#append_product'
       delete '/cart/product', to: 'cart#remove_product'
       get '/cart/product', to: 'cart#show_cart'
+
+      get '/orders', to: 'order#show'
     end
 
     namespace :order do

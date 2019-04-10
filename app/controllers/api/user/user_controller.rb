@@ -40,7 +40,7 @@ module Api
       private
 
       def modify_params
-        params.require('user').permit(:complete_name)
+        params.require('user').permit(:complete_name, :phone_number, :address)
       end
 
     end

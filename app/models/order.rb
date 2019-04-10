@@ -6,7 +6,7 @@ class Order < ApplicationRecord
 
   after_create :add_initial_status
   after_update :notify_create
-  after_update :notify_to_user
+  after_update :notify_to_users
 
   def add_initial_status
     update!(state: 'new')

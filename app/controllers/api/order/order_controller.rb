@@ -7,9 +7,9 @@ module Api
       before_action :verify_admin, except: :create_demo
 
       def create_demo
-        products = Product.all
+        products = ::Product.all
         total = products.map(&:price).sum
-        ::Order.create!(total: total, itbis: (total * 0.18), user_id: 3, products: products)
+        ::Order.create!(total: total, itbis: (total * 0.18), user_id: 1, products: products)
         render json: 'Sent', status: :ok
       end
 
@@ -31,7 +31,7 @@ module Api
         order = ::Order.find(params[:order_id])
         order.update!(state: params[:state])
         order_info = show_single
-        ::ActionCable.server.broadcast('orders_channel', order_info.to_json)
+        ::ActionCable.server.broadcast('order_notification_channel_new', order_info.to_json)
         order_info
       end
 

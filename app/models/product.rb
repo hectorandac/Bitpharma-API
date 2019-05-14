@@ -2,7 +2,8 @@ class Product < ApplicationRecord
   has_and_belongs_to_many :users
   has_many_attached :pictures
   searchkick word_middle: [:product_name],
-             callbacks: :async
+             callbacks: :async,
+             index_name: 'name_index'
 
   def search_data
     {

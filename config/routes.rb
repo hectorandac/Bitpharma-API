@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       post '/', to: 'products#create'
       post '/image', to: 'products#append_images'
       patch '/:id', to: 'products#update'
+      post '/reindex', to: 'products#reindex'
     end
   end
 end

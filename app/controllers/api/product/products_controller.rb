@@ -62,6 +62,13 @@ class Api::Product::ProductsController < ApplicationController
     @api_product_product.destroy
   end
 
+  def reindex
+    ::Product.reindex
+    render json: {
+        message: 'Reindex successful', :status => :ok
+    }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

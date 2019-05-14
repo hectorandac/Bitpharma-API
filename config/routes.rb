@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+
+  get '/', to: 'application#index'
+
   apipie
   devise_for :users,
              path: 'api',

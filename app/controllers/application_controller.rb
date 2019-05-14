@@ -16,6 +16,10 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def index
+    render json: {test: 'main'}, status: :ok
+  end
+
   def validation_error(resource)
     render json: {
       errors: [

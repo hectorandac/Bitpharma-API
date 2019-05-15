@@ -15,7 +15,7 @@ module Api
 
       def show
         drugstore = ::DrugStore.find(params[:drugstore_id])
-        render json: drugstore, status: :ok
+        render json: drugstore.sanitazed_info, status: :ok
       rescue ActiveRecord::RecordNotFound => _e
         render json: 'Drugstore does not exist.', status: :not_found
       end

@@ -49,7 +49,6 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 
 # Google Distance Matrix
-gem 'google_distance_matrix'
 gem 'google_maps_service'
 
 group :development, :test do

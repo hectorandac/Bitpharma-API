@@ -2,7 +2,6 @@
 
 require 'stripe'
 require 'google_maps_service'
-require 'net/http'
 require 'open-uri'
 
 # General Application controller

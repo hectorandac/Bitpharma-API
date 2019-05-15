@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_151216) do
+ActiveRecord::Schema.define(version: 2019_05_15_210843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 2019_05_15_151216) do
     t.decimal "latitude"
     t.decimal "longitude"
     t.index ["user_id"], name: "index_drug_stores_on_user_id"
+  end
+
+  create_table "inventories", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "drug_store_id"
+    t.integer "quantity"
+    t.decimal "sale_price", precision: 10, scale: 4
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["drug_store_id"], name: "index_inventories_on_drug_store_id"
+    t.index ["product_id"], name: "index_inventories_on_product_id"
   end
 
   create_table "jwt_blacklist", force: :cascade do |t|
@@ -133,5 +144,7 @@ ActiveRecord::Schema.define(version: 2019_05_15_151216) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "drug_stores", "users"
+  add_foreign_key "inventories", "drug_stores"
+  add_foreign_key "inventories", "products"
   add_foreign_key "orders", "users"
 end

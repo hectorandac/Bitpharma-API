@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post '/', to: 'drug_store#create'
       post '/image', to: 'drug_store#append_image'
       get '/', to: 'drug_store#show'
+      get '/search_near', to: 'drug_store#search_near'
     end
 
     namespace :user do

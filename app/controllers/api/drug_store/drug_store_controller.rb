@@ -3,7 +3,8 @@
 module Api
   module DrugStore
     class DrugStoreController < ApplicationController
-      before_action :authenticate_user!, except: :show
+      before_action :authenticate_user!, except: [:show, :search_near]
+      before_action :configure_google_Service, only: :search_near
 
       def create
         drugstore = ::DrugStore.new(permitted_params)
@@ -35,7 +36,58 @@ module Api
         end
       end
 
+      api :GET, '/drug_store/search', 'Retrieve a set of near drug stores'
+      param :latitude, String, required: true, desc: 'location latitude of the user'
+      param :longitude, String, required: true, desc: 'location longitude of the user'
+      param :max_distance, String, require: true, desc: 'Max distance allowed between current user and drug stores'
+      def search_near
+
+        nearbies = []
+        stores = []
+        debug_values = []
+
+        destinations = ""
+        ::DrugStore.find_each do |store|
+          if store == ::DrugStore.last
+            destinations = destinations + store[:latitude].to_s + "%2C" + store[:longitude].to_s
+          else
+            destinations = destinations + store[:latitude].to_s + "%2C" + store[:longitude].to_s + "%7C"
+          end
+          stores.push(store)
+        end
+
+        response = open("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=#{params[:latitude]},#{params[:longitude]}&destinations=#{destinations}&key=AIzaSyA6p9-yG5S0jb7CtGAFFo07Dk3eMV2lyZg").read
+        result = JSON.parse(response)
+
+        elements = result['rows'][0]['elements']
+
+        idx = 0
+        elements.each do |e|
+          puts 'element: '
+          if e['distance']['value'] < 30000
+            nearbies.push({store: stores[idx], matrix: e})
+          end
+          idx = idx + 1
+        end
+
+        render json: { result: nearbies, debug_value: debug_values, destinations: destinations }, :status => :ok
+
+      end
+
       private
+
+      # TODO: Move this into a config file
+      def configure_google_Service
+        # Setup global parameters
+        ::GoogleMapsService.configure do |config|
+          config.key = 'AIzaSyA6p9-yG5S0jb7CtGAFFo07Dk3eMV2lyZg'
+          config.retry_timeout = 20
+          config.queries_per_second = 10
+        end
+
+        # Initialize client using global parameters
+        @gmaps = ::GoogleMapsService::Client.new
+      end
 
       def permitted_params
         params.require('drug_store').permit(:name, :description)

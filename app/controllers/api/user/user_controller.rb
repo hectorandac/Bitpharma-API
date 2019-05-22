@@ -11,6 +11,9 @@ module Api
       header :Authorization, 'Token that identifies the user', required: true
       def add_profile_picture
         current_user.profile_image.attach(params[:image])
+        render json: {
+            location: rails_blob_path(current_user.profile_image, disposition: "attachment", only_path: true)
+        }, status: :ok
       end
 
       api :PATCH, '/user/role', 'Add roles to the user'

@@ -96,7 +96,7 @@ module Api
       end
 
       def permitted_params
-        params.require('drug_store').permit(:name, :description)
+        params.require('drug_store').permit(:name, :description, :latitude, :longitude)
       end
     end
   end

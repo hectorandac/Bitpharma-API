@@ -56,21 +56,27 @@ module Api
           stores.push(store)
         end
 
-        response = open("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=#{params[:latitude]},#{params[:longitude]}&destinations=#{destinations}&key=AIzaSyA6p9-yG5S0jb7CtGAFFo07Dk3eMV2lyZg").read
-        result = JSON.parse(response)
+        if destinations.empty?
+          render json: {
+              message: "There are no drug stores created."
+          }, :status => :ok
+        else
+          response = open("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=#{params[:latitude]},#{params[:longitude]}&destinations=#{destinations}&key=AIzaSyA6p9-yG5S0jb7CtGAFFo07Dk3eMV2lyZg").read
+          result = JSON.parse(response)
 
-        elements = result['rows'][0]['elements']
+          elements = result['rows'][0]['elements']
 
-        idx = 0
-        elements.each do |e|
-          puts 'element: '
-          if e['distance']['value'] < 30000
-            nearbies.push({store: stores[idx], matrix: e})
+          idx = 0
+          elements.each do |e|
+            puts 'element: '
+            if e['distance']['value'] < 30000
+              nearbies.push({store: stores[idx], matrix: e})
+            end
+            idx = idx + 1
           end
-          idx = idx + 1
-        end
 
-        render json: { result: nearbies, debug_value: debug_values, destinations: destinations }, :status => :ok
+          render json: { result: nearbies, debug_value: debug_values, destinations: destinations }, :status => :ok
+        end
 
       end
 

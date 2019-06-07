@@ -4,13 +4,22 @@ module Api
   module Order
     class OrderController < ApplicationController
       before_action :authenticate_user!, except: :create_demo
-      before_action :verify_admin, except: :create_demo
+      before_action :verify_admin, except: [:create_demo, :personal]
 
       def create_demo
         products = ::Product.all
         total = products.map(&:price).sum
         ::Order.create!(total: total, itbis: (total * 0.18), user_id: 1, products: products)
         render json: 'Sent', status: :ok
+      end
+
+      def personal
+        orders = current_user.orders
+                     .limit(params[:limit] || 20)
+                     .offset(params[:offset] || 0)
+                     .order(id: :desc)
+                     .where(state: params[:status])
+        render json: orders.map(&:sanitized_info), status: :ok
       end
 
       def show

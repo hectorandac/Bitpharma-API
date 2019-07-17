@@ -35,20 +35,20 @@ module Api
 
       def last_week_status
         orders = ::Order.where('created_at >= :date AND user_id = :user_id', date: 1.week.ago, user_id: current_user[:id]).map(&:sanitized_info)
-        total = 0
+        total_price = 0
 
         if orders.any?
-
           orders.each do |order|
-            total += order[:total]
+            total_price += order[:total]
           end
 
         end
 
         render json: {
           statistics: {
-            total_orders: total,
-
+            total_price_orders: total_price,
+            total_orders: orders.size,
+            customers_orders: orders.map(&:sanitized_info)
           }
         }, status: :ok
       end

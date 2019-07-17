@@ -9,7 +9,7 @@ class Api::Product::ProductsController < ApplicationController
   def index
     @api_product_products = ::Product.all
 
-    render json: @api_product_products
+    render json: @api_product_products.map(&:sanitized_info), status: :ok
   end
 
   # GET /api/product/products/1

@@ -3,24 +3,24 @@ version: '2.1'
 # ACTUAL CONFIGURATION
 services:
   # DATABASE CONFIGURATION
-  elasticsearch:
-    container_name: bitpharma-elasticsearch
-    build:
-      context: config/docker/elasticsearch/
-    volumes:
-      - ./config/docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-    healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    networks:
-      - elk
+#  elasticsearch:
+#    container_name: bitpharma-elasticsearch
+#    build:
+#      context: config/docker/elasticsearch/
+#    volumes:
+#      - ./config/docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    environment:
+#      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+#    healthcheck:
+#      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+#      interval: 30s
+#      timeout: 30s
+#      retries: 3
+#    networks:
+#      - elk
 
   kibana:
     container_name: bitpharma-kibana
@@ -33,51 +33,51 @@ services:
     networks:
       - elk
 
-  psql:
-    command: postgres -c logging_collector=on
-      -c log_min_duration_statement=0
-      -c log_directory='/var/log/postgresql'
-      -c log_min_messages='WARNING'
-      -c log_rotation_age='1d'
-      -c log_rotation_size='1GB'
-    container_name: bitpharma-psql
-    hostname: psql
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: 'qusUt1i9obru4ISTUG2f'
-    ports:
-      - "5432:5432"
-    volumes:
-      - psql:/var/log/postgresql
-    networks:
-      - api
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+#  psql:
+#    command: postgres -c logging_collector=on
+#      -c log_min_duration_statement=0
+#      -c log_directory='/var/log/postgresql'
+#      -c log_min_messages='WARNING'
+#      -c log_rotation_age='1d'
+#      -c log_rotation_size='1GB'
+#    container_name: bitpharma-psql
+#    hostname: psql
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_PASSWORD: 'qusUt1i9obru4ISTUG2f'
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - psql:/var/log/postgresql
+#    networks:
+#      - api
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
 
-  rails:
-    restart: always
-    container_name: bitpharma-api
-    build: .
-    volumes:
-      - .:/bitpharma-api
-    environment:
-      - DB_HOST=psql
-      - DB_PASSWORD=qusUt1i9obru4ISTUG2f
-      - DB_USER=postgres
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - DIGITAL_OCEAN_SPACES_ID=G634R6XSCQH67EDG3XPV
-      - DIGITAL_OCEAN_SPACES_KEY=SimmIkaQ0/47wu/ZXCDa7/KIou36pyrIE8wFEPZW47Q
-      - DEVISE_JWT_SECRET_KEY=uyGhjtu867Hk
-      - PORT=3000
-    ports:
-      - "3000:3000"
-    networks:
-      - api
-      - elk
+#  rails:
+#    restart: always
+#    container_name: bitpharma-api
+#    build: .
+#    volumes:
+#      - .:/bitpharma-api
+#    environment:
+#      - DB_HOST=psql
+#      - DB_PASSWORD=qusUt1i9obru4ISTUG2f
+#      - DB_USER=postgres
+#      - ELASTICSEARCH_URL=http://elasticsearch:9200
+#      - DIGITAL_OCEAN_SPACES_ID=G634R6XSCQH67EDG3XPV
+#      - DIGITAL_OCEAN_SPACES_KEY=SimmIkaQ0/47wu/ZXCDa7/KIou36pyrIE8wFEPZW47Q
+#      - DEVISE_JWT_SECRET_KEY=uyGhjtu867Hk
+#      - PORT=3000
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - api
+#      - elk
 
 networks:
   api:

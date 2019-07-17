@@ -33,7 +33,7 @@ class User < ApplicationRecord
       email: email,
       complete_name: complete_name,
       phone_number: phone_number,
-      address: address,
+      address: ::Address.find_by(user_id: id).address,
       profile_picture_url: profile_image.attached? ? rails_blob_path(profile_image, disposition: "attachment", only_path: true) : nil,
       roles: roles.map(&:name),
       stripe_id: stripe_id,

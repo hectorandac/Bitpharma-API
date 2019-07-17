@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::User::PaymentsController < Api::User::PaymentMethodController
-
   api :POST, '/user/cart/pay', 'Perform cart payment with default user source'
   header :Authorization, 'Token that identifies a user', required: true
   def perform_payment
@@ -13,10 +12,10 @@ class Api::User::PaymentsController < Api::User::PaymentMethodController
       total_stripe_format = (total * 100).to_i
 
       charge = Stripe::Charge.create(
-          amount: total_stripe_format,
-          currency: 'dop',
-          customer: @stripe_customer,
-          description: "Pago de productos #{current_user.email}"
+        amount: total_stripe_format,
+        currency: 'dop',
+        customer: @stripe_customer,
+        description: "Pago de productos #{current_user.email}"
       )
       status = charge.status
     end
@@ -28,8 +27,8 @@ class Api::User::PaymentsController < Api::User::PaymentMethodController
       render json: order.sanitized_info, status: :ok
     else
       render json: {
-          message: 'Something happened while charging your primary payment method',
-          payment_status: charge.status
+        message: 'Something happened while charging your primary payment method',
+        payment_status: charge.status
       }, status: :conflict
     end
   end

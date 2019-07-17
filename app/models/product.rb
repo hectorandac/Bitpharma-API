@@ -3,7 +3,7 @@ class Product < ApplicationRecord
   has_many :inventories
   has_many :drug_stores, through: :inventories
   has_many_attached :pictures
-  searchkick word_middle: [:product_name],
+  searchkick text_middle: [:product_name],
              callbacks: :async,
              index_name: 'name_index'
 

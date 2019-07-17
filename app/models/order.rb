@@ -3,6 +3,7 @@
 class Order < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :products
+  belongs_to :drug_store
 
   after_create :add_initial_status
   after_update :notify_create
@@ -26,7 +27,8 @@ class Order < ApplicationRecord
       user: user.sanitized_info,
       created_at: created_at,
       updated_at: updated_at,
-      products: compound(products.map(&:sanitized_info))
+      products: compound(products.map(&:sanitized_info)),
+      payment_method: payment_method
     }
   end
 

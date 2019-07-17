@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
   has_and_belongs_to_many :users
+  has_many :inventories
+  has_many :drug_stores, through: :inventories
   has_many_attached :pictures
   searchkick word_middle: [:product_name],
              callbacks: :async,

@@ -1,6 +1,15 @@
 class DrugStore < ApplicationRecord
+  resourcify
   belongs_to :user
   has_many_attached :pictures
+  has_many :orders
+  after_create :assign_role
+  has_many :inventories
+  has_many :products, through: :inventories
+
+  def assign_role
+    user.add_role :owner, self
+  end
 
   def get_location
     {

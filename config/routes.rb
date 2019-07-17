@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   get '/', to: 'application#index'
 
-  apipie
   devise_for :users,
              path: 'api',
              path_names: {
@@ -14,7 +13,8 @@ Rails.application.routes.draw do
              },
              controllers: {
                sessions: 'sessions',
-               registrations: 'registrations'
+               registrations: 'registrations',
+               confirmations: 'confirmations'
              }, defaults: { format: :json }
 
   mount ActionCable.server => '/cable'
@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       post '/image', to: 'drug_store#append_image'
       get '/', to: 'drug_store#show'
       get '/search_near', to: 'drug_store#search_near'
+      get '/last_week_status', to: 'drug_store#last_week_status'
+      put '/add_product', to: 'drug_store#add_product'
     end
 
     namespace :user do
@@ -45,6 +47,9 @@ Rails.application.routes.draw do
 
       get '/orders', to: 'order#show'
       get '/orders/single', to: 'order#show_single'
+
+      get '/address', to: 'address#show'
+      post '/address', to: 'address#create'
     end
 
     namespace :order do
@@ -62,6 +67,7 @@ Rails.application.routes.draw do
       post '/image', to: 'products#append_images'
       patch '/:id', to: 'products#update'
       post '/reindex', to: 'products#reindex'
+      delete '/', to: 'products#destroy'
     end
   end
 end

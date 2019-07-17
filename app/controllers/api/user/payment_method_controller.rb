@@ -42,6 +42,7 @@ module Api
       header :Authorization, 'Token that identifies the user', required: true
       param :source_id, String, required: true, desc: 'Payment method stripe id'
       def remove_payment_method
+        current_user.update!(stripe_id: nil)
         Stripe::Customer.detach_source(
           @stripe_customer.id,
           params[:source_id]

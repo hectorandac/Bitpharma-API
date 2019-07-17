@@ -5,19 +5,25 @@ class Api::User::PaymentsController < Api::User::PaymentMethodController
   api :POST, '/user/cart/pay', 'Perform cart payment with default user source'
   header :Authorization, 'Token that identifies a user', required: true
   def perform_payment
+    is_cash = (params[:payment_method] === 'cash')
+    status = 'pending'
     products = current_user.products
-    total = products.map(&:price).sum
-    total_stripe_format = (total * 100).to_i
+    unless is_cash
+      total = products.map(&:price).sum
+      total_stripe_format = (total * 100).to_i
 
-    charge = Stripe::Charge.create(
-      amount: total_stripe_format,
-      currency: 'dop',
-      customer: @stripe_customer,
-      description: "Pago de productos #{current_user.email}"
-    )
+      charge = Stripe::Charge.create(
+          amount: total_stripe_format,
+          currency: 'dop',
+          customer: @stripe_customer,
+          description: "Pago de productos #{current_user.email}"
+      )
+      status = charge.status
+    end
 
-    if charge.status == 'succeeded'
+    if status == 'succeeded' || is_cash
       order = convert_to_order(products)
+      order.update!(payment_method: is_cash ? 'cash' : 'card')
       current_user.products.clear
       render json: order.sanitized_info, status: :ok
     else
@@ -37,6 +43,7 @@ class Api::User::PaymentsController < Api::User::PaymentMethodController
       total: total,
       itbis: total * 0.18,
       user: current_user,
+      drug_store: DrugStore.last,
       products: products
     )
   end

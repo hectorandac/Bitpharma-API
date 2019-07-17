@@ -30,9 +30,6 @@ services:
       - ./config/docker/kibana/config/:/usr/share/kibana/config:ro
     ports:
       - "5601:5601"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
     networks:
       - elk
 
@@ -65,7 +62,6 @@ services:
     restart: always
     container_name: bitpharma-api
     build: .
-    command: bin/start_rails_docker
     volumes:
       - .:/bitpharma-api
     environment:
@@ -76,17 +72,12 @@ services:
       - DIGITAL_OCEAN_SPACES_ID=G634R6XSCQH67EDG3XPV
       - DIGITAL_OCEAN_SPACES_KEY=SimmIkaQ0/47wu/ZXCDa7/KIou36pyrIE8wFEPZW47Q
       - DEVISE_JWT_SECRET_KEY=uyGhjtu867Hk
-      - PORT=3002
+      - PORT=3000
     ports:
-      - "3002:3002"
+      - "3000:3000"
     networks:
       - api
       - elk
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      psql:
-        condition: service_healthy
 
 networks:
   api:
